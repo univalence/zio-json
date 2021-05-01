@@ -110,6 +110,32 @@ object JsonSpec extends DefaultRunnableSpec {
         val arr2 = Json.Arr(Json.Str("one"), Json.Obj("two" -> Json.Num(2)), Json.Num(3))
         assert(arr1.hashCode)(equalTo(arr2.hashCode))
       },
+      suite("delete")(
+        test("removes the element at the given position") {
+          val json = Json.Obj(
+            "user" -> Json.Obj(
+              "id"       -> Json.Num(1001),
+              "username" -> Json.Str("Bob"),
+              "password" -> Json.Str("hunter2")
+            )
+          )
+
+          val clean = json.delete(JsonCursor.field("user").isObject.field("password"))
+
+          assert(clean)(
+            isRight(
+              equalTo(
+                Json.Obj(
+                  "user" -> Json.Obj(
+                    "id"       -> Json.Num(1001),
+                    "username" -> Json.Str("Bob")
+                  )
+                )
+              )
+            )
+          )
+        }
+      ),
       suite("get")(
         test("downField") {
           val obj = Json.Obj("a" -> Json.Num(1), "b" -> Json.Num(2), "c" -> Json.Null)

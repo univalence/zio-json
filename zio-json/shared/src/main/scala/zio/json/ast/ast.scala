@@ -24,7 +24,31 @@ import zio.json.internal._
  * JsonValue / Json / JValue
  */
 sealed abstract class Json { self =>
-  final def delete(cursor: JsonCursor[_, _]): Either[String, Json] = ???
+  /**
+   * Removes the element at the position, or returns an error -- when?
+   **/
+  final def delete(cursor: JsonCursor[_, _]): Either[String, Json] = {
+    // Keep track of the position that we want deleted
+    // val topCursor = cursor
+
+    def walk(node: Json, at: JsonCursor[_, _]): Either[String, Json] = 
+      at match {
+        case JsonCursor.identity => Right(self)
+        case JsonCursor.DownField(parent, field) =>
+          // we can only delete the path if we're this field
+          // oh -- this is the right side -- we can't just call parent
+          // unless we know that we're the terminal leaf node.
+          println(s"downField '${ field }' @ ${ self }")
+
+          walk(node, parent).flatMap { x =>
+            println(s"result of parant walk: '$x'")
+
+            ???
+          }
+      }
+
+      walk(self, cursor)
+  }
 
   final def diff(that: Json): JsonDiff = JsonDiff(self, that)
 
@@ -95,6 +119,8 @@ sealed abstract class Json { self =>
     val total  = (a: A, json: Json) => lifted((a, json)).getOrElse(a)
     foldUp(initial)(total)
   }
+
+  // TODO: transform with a path
 
   final def get[A <: Json](cursor: JsonCursor[_, A]): Either[String, A] =
     cursor match {
