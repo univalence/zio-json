@@ -4,8 +4,8 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 inThisBuild(
   List(
-    organization := "dev.zio",
-    homepage := Some(url("https://zio.github.io/zio-json/")),
+    organization := "io.univalence",
+    homepage := Some(url("https://univalence.io/")),
     licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     developers := List(
       Developer(
@@ -15,11 +15,11 @@ inThisBuild(
         url("http://degoes.net")
       )
     ),
-    pgpPassphrase := sys.env.get("PGP_PASSWORD").map(_.toArray),
-    pgpPublicRing := file("/tmp/public.asc"),
-    pgpSecretRing := file("/tmp/secret.asc"),
+//    pgpPassphrase := sys.env.get("PGP_PASSWORD").map(_.toArray),
+//    pgpPublicRing := file("/tmp/public.asc"),
+//    pgpSecretRing := file("/tmp/secret.asc"),
     scmInfo := Some(
-      ScmInfo(url("https://github.com/zio/zio-json/"), "scm:git:git@github.com:zio/zio-json.git")
+      ScmInfo(url("https://github.com/univalence/zio-json/"), "scm:git:git@github.com:univalence/zio-json.git")
     )
   )
 )
